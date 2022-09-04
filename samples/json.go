@@ -4,13 +4,13 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"os"
 )
 
 var Path = "samples/"
 
 func Unmarshall[T any](times int) (result T) {
-	file, err := ioutil.ReadFile(fmt.Sprintf("%stest.json", Path))
+	file, err := os.ReadFile(fmt.Sprintf("%stest.json", Path))
 	if err != nil {
 		panic(err)
 	}

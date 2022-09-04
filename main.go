@@ -4,21 +4,18 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"net/http/pprof"
+	_ "net/http/pprof"
 	"strconv"
 
 	"github.com/rafaelhl/profiling-samples/samples"
 )
 
 func main() {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/debug/profile", pprof.Profile)
+	http.HandleFunc("/json/unmarshall", handleJson)
+	http.HandleFunc("/timezone", handleTimezone)
+	http.HandleFunc("/aloc", handleAloc)
 
-	mux.HandleFunc("/json/unmarshall", handleJson)
-	mux.HandleFunc("/timezone", handleTimezone)
-	mux.HandleFunc("/aloc", handleAloc)
-
-	log.Fatal(http.ListenAndServe(":7777", mux))
+	log.Fatal(http.ListenAndServe(":7777", nil))
 }
 
 func timesParam(r *http.Request, w http.ResponseWriter) (int, bool) {
