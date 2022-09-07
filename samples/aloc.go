@@ -2,8 +2,9 @@ package samples
 
 func Aloc[O any, T []O](obj O, times int) (result T) {
 
+	result = make(T, times+1)
 	for i := 0; i <= times; i++ {
-		result = append(result, obj)
+		result[i] = obj
 	}
 
 	for _, o := range result {

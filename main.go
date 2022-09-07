@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/json"
+	"github.com/goccy/go-json"
 	"log"
 	"net/http"
 	_ "net/http/pprof"
