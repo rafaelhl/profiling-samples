@@ -1,18 +1,23 @@
 package samples
 
-import "fmt"
-
 func Aloc[O any, T []O](obj O, times int) (result T) {
 
+	result = make(T, times+1)
 	for i := 0; i <= times; i++ {
-		result = append(result, obj)
+		result[i] = obj
 	}
 
-	values := make([]any, 0)
 	for _, o := range result {
-		values = append(values, fmt.Sprintf("%+v\n", o))
+		if isError(o) {
+			result = nil
+			return
+		}
 	}
-	fmt.Println(values...)
 
 	return
+}
+
+func isError(o any) bool {
+	_, ok := o.(error)
+	return ok
 }
