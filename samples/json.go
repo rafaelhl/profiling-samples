@@ -2,7 +2,7 @@ package samples
 
 import (
 	"bytes"
-	"encoding/json"
+	"github.com/goccy/go-json"
 	"fmt"
 	"os"
 )
@@ -10,16 +10,26 @@ import (
 var Path = "samples/"
 
 func Unmarshall[T any](times int) (result T) {
-	file, err := os.ReadFile(fmt.Sprintf("%stest.json", Path))
+	filename := fmt.Sprintf("%stest.json", Path)
+	file, err := os.ReadFile(filename)
 	if err != nil {
 		panic(err)
 	}
 
+	var cache map[string]T = make(map[string]T)
+
 	for i := 0; i <= times; i++ {
+		var ok bool
+		result, ok = cache[filename]
+		if ok {
+			return
+		}
+
 		err = json.NewDecoder(bytes.NewReader(file)).Decode(&result)
 		if err != nil {
 			panic(err)
 		}
+		cache[filename] = result
 	}
 
 	return
